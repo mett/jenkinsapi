@@ -423,7 +423,11 @@ class Build(JenkinsBase):
         for dct_action in self._data["actions"]:
             if dct_action is None:
                 continue
-            all_actions.update(dct_action)
+            for key in dct_action.keys():
+                if key in all_actions:
+                    all_actions[key].extend(dct_action[key])
+                else:
+                    all_actions[key] = dct_action[key]
         return all_actions
 
     def get_causes(self):
